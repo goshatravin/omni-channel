@@ -10,7 +10,7 @@ const auth = (state = initialState, action) => {
   switch (action.type) {
     case authConstants.LOGIN_REQUEST:
       return {
-        loggedIn: true,
+        loggedIn: false,
         user: action.user,
         error: '',
       };

@@ -45,7 +45,7 @@ const Auth = (props) => {
     e.preventDefault();
     setSubmitted(true);
     if (login && password) {
-      dispatch(loginAction(login, password));
+      dispatch(loginAction(login, password, props.history));
     } else {
       console.log('xuy');
     }
