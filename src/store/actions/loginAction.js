@@ -1,5 +1,7 @@
+import { Base64 } from 'js-base64';
 import actionTypes from '../constants';
-import loginServices from '../services/loginServices';
+// import loginServices from '../services/loginServices';
+import api from '../services/api';
 
 const authUser = (login, password) => async (dispatch) => {
   dispatch({
@@ -7,7 +9,24 @@ const authUser = (login, password) => async (dispatch) => {
   });
 
   try {
-    const user = await loginServices(login, password);
+    const userData = {
+      login,
+      password,
+    };
+    const user = await api('login', 'post', userData)
+      .then((response) => {
+        const { data } = response;
+        if (data.error) {
+          throw data;
+        }
+        const { value } = response.data;
+        let encoded = [];
+        encoded = JSON.parse(Base64.decode(value));
+        return encoded;
+      })
+      .catch((error) => {
+        throw error;
+      });
     dispatch({
       type: actionTypes.LOGIN_SUCCESS,
       payload: {
