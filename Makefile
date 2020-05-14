@@ -9,3 +9,6 @@ lint:
 
 build:
 	npm build
+
+test:
+	npm test
