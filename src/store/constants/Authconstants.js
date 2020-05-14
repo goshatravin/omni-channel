@@ -1,9 +1,0 @@
-const authConstants = {
-  LOGIN_REQUEST: 'USER_LOGIN_REQUEST',
-  LOGIN_SUCCESS: 'USER_LOGIN_SUCCESS',
-  LOGIN_FAILURE: 'USER_LOGIN_FAILURE',
-
-  LOGOUT: 'USERS_LOGOUT',
-};
-
-export default authConstants;

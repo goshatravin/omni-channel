@@ -1,33 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 import PropTypes from 'prop-types';
 import Auth from './containers/Auth';
 import Dashboard from './containers/Main';
+import getTheme from './theme/theme';
 import PrivateRoute from './helpers/privateRoute';
-
-
+import ThemeToggle from './helpers/themeToggle';
 
 const App = (props) => {
-  const { loggedIn } = props;
+  const [dark, setDark] = useState(true);
+  const theme = getTheme(dark ? 'dark' : 'light');
+  const { dispatch } = props;
   return (
-    <Router>
-      <Switch>
-        <PrivateRoute exact path="/main" component={Dashboard} loggedIn={loggedIn} />
-        <Route path="/login" component={Auth} />
-      </Switch>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <ThemeToggle setDark={setDark} value={dark} />
+      <Router>
+        <Switch>
+          <Route path="/login" component={Auth} />
+          <PrivateRoute exact path="/main" dispatch={dispatch}>
+            <Dashboard />
+          </PrivateRoute>
+        </Switch>
+      </Router>
+    </ThemeProvider>
   );
 };
 
 App.propTypes = {
-  loggedIn: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
-  const { loggedIn } = state.auth;
   return {
-    loggedIn,
+    state,
   };
 }
 const connectedApp = connect(mapStateToProps)(App);

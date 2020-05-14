@@ -1,12 +1,14 @@
 ---
-
 env:
   browser: true
   es6: true
+  jest: true
 
 extends:
   - 'plugin:react/recommended'
   - airbnb
+  - prettier
+  - prettier/react
 
 globals:
   Atomics: readonly
@@ -20,8 +22,11 @@ parserOptions:
 
 plugins:
   - react
+  - prettier
 
-rules: {
-  no-console: 0,
-  react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
-}
+rules:
+  {
+    no-console: 1,
+    react/jsx-filename-extension: [1, { 'extensions': ['.js', '.jsx'] }],
+    import/no-extraneous-dependencies: ['error', { 'devDependencies': true }],
+  }

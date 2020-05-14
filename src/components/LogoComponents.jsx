@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Logo = styled.p`
-  font-size: 30px;
+  font-size: 25px;
   letter-spacing: 5px;
   padding-bottom: 50px;
   color: lightsteelblue;
@@ -24,6 +24,5 @@ const logoComponent = () => {
     </LogoBox>
   );
 };
-
 
 export default logoComponent;

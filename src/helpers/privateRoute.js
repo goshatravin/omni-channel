@@ -1,22 +1,60 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import axios from 'axios';
-import authConstants from '../store/constants/Authconstants';
+import React, { useEffect, useState } from 'react';
+import { Redirect, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import sessionAction from '../store/actions/sessionAction';
+import Loading from './Loading';
 
-const success = (user) => ({ type: authConstants.LOGIN_SUCCESS, user });
+// const Loading = () => {
+//   return <div className="lol"> ЗАГРУЗКА</div>;
+// };
 
-const PrivateRoute = ({component: Component, path, ...rest }) => {
-  axios.post(`http://localhost:4000/api/pages${path}`)
-    .then((response) => {
-      console.log('хуй', response);
-    });
-  const { loggedIn } = rest;
-  console.log(rest);
-  return (
-    <Route path={path}
-    render ={(props) =>
-    loggedIn ? <Component {...props}/>
-  : (<Redirect to='/login' />) } />
-)
+function PrivateRoute({ children, ...rest }) {
+  const { loggedIn, dispatch, path } = rest;
+  const [spinner, setSpinner] = useState(false);
+  useEffect(() => {
+    if (!loggedIn) {
+      setSpinner(true);
+      dispatch(sessionAction(path));
+      setTimeout(() => {
+        setSpinner(false);
+      }, 3000);
+    }
+  }, []);
+  if (loggedIn && !spinner) {
+    return (
+      <Route
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...rest}
+        render={({ location }) =>
+          rest.loggedIn ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: { from: location },
+              }}
+            />
+          )
+        }
+      />
+    );
+  }
+  return <Loading />;
+}
+
+PrivateRoute.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
-export default PrivateRoute;
+
+function mapStateToProps(state) {
+  const { loggedIn } = state.loginReducer;
+  return {
+    loggedIn,
+  };
+}
+export default connect(mapStateToProps)(PrivateRoute);

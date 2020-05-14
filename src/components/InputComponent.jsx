@@ -4,15 +4,27 @@ import styled from 'styled-components';
 
 const Input = styled.input`
   width: 300px;
+  backface-visibility: hidden;
+  perspective: 1000px;
   height: 45px;
-  border: 1px solid #EBEFF3;
+  color: ${(props) => props.theme.colors.text};
+  /* border: 1px solid ${(props) => props.theme.colors.input_border}; */
+  border: 1px solid ${(props) => {
+    if (props.error || (props.validation && props.value === '')) {
+      return props.theme.colors.error;
+    }
+    return props.theme.colors.input_border;
+  }};
+
+}}
+}};
   border-radius: 5px;
+  background: transparent;
   padding-left: 30px;
-  /* box-shadow: 0px 0px 5px rgba(191, 210, 226, 0.25); */
   font-size: 16px;
   outline: none;
   &::placeholder {
-    color: #9FA9AD;
+    color: ${(props) => props.theme.colors.input_placeholder};
   }
 `;
 const FormGroup = styled.div`
@@ -29,12 +41,13 @@ const inputComponent = (props) => {
     placeholder,
     clickFunc,
     validation,
+    error,
   } = props;
 
   return (
     <FormGroup>
       <Input
-        style={{ border: (validation && !value) && '1px solid #FF767E' }}
+        // style={{ border: validation && !value && '1px solid #FF767E' }}
         className={className}
         name={name}
         type={inputType}
@@ -42,6 +55,8 @@ const inputComponent = (props) => {
         onChange={controlFunc}
         placeholder={placeholder}
         onClick={clickFunc}
+        error={error}
+        validation={validation}
       />
     </FormGroup>
   );
@@ -65,6 +80,5 @@ inputComponent.propTypes = {
   clickFunc: PropTypes.func,
   validation: PropTypes.bool,
 };
-
 
 export default inputComponent;
