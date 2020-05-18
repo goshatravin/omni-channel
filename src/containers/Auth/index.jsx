@@ -28,7 +28,7 @@ const Auth = (props) => {
   };
   if (!loggedIn) {
     return (
-      <Div className={login}>
+      <Div className="login" direction="column">
         <LogoComponent />
         <ErrorComponent submitted={submitted} value={error} />
         <FormBox

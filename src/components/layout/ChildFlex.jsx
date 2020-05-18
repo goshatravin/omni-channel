@@ -4,26 +4,15 @@ import styled from 'styled-components';
 
 const Div = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: ${(props) => {
-    return props.direction;
-  }};
-  height: 100vh;
-  background: ${(props) => props.theme.colors.primary};
 `;
 
-const Flexbox = (props) => {
+const ChildFlex = (props) => {
   const { className, children, direction } = props;
 
-  return (
-    <Div className={className} direction={direction}>
-      {children}
-    </Div>
-  );
+  return <Div className={className}>{children}</Div>;
 };
 
-Flexbox.propTypes = {
+ChildFlex.propTypes = {
   direction: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
@@ -32,4 +21,4 @@ Flexbox.propTypes = {
   ]).isRequired,
 };
 
-export default Flexbox;
+export default ChildFlex;

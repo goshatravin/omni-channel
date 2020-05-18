@@ -18,7 +18,7 @@ function PrivateRoute({ children, ...rest }) {
       dispatch(sessionAction(path));
       setTimeout(() => {
         setSpinner(false);
-      }, 3000);
+      }, 1000);
     }
   }, []);
   if (loggedIn && !spinner) {

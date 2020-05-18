@@ -5,9 +5,10 @@ const darkColors = {
   input_placeholder: '#BBBDBF',
   text: '#FFFFFF',
   error: '#a95055',
+  button: '#5d6b82',
 };
 const lightColors = {
-  primary: '#FFFFFF',
+  primary: '#F6F6F6',
   active: '#266CD7',
   input_border: '#EBEFF3',
   input_placeholder: '#9fa9ad',
