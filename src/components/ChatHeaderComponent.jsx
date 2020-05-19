@@ -3,15 +3,20 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 const Header = styled.div`
-  border: 1px solid blue;
+  border-bottom: 1px solid #dfe1e5;
   height: 40px;
 `;
+const Name = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const ChatHeaderComponent = (props) => {
-  const { data } = props;
+  const data = { id: 1, name: 'Andery Victorov' };
   return (
     <Header>
-      {data.name}
-      ...
+      <Name>
+        <p>{data.name}</p>
+      </Name>
     </Header>
   );
 };

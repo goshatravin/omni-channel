@@ -12,5 +12,16 @@ const Api = (path, method, data) => {
     data,
   });
 };
+const Omnichannel = (path, method, data) => {
+  return axios({
+    method,
+    url: `${process.env.REACT_APP_URL_OMNICHANNEL}${path}`,
+    headers: {
+      Authorization: `Basic ${process.env.REACT_APP_SECRET_TOKEN}`,
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    data,
+  });
+};
 
-export default Api;
+export { Api, Omnichannel };

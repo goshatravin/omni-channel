@@ -8,8 +8,9 @@ const Row = styled.div`
 `;
 const Col = styled.div`
   padding: 1rem;
+  box-sizing: border-box;
   flex: ${(props) => props.size};
-  height: calc(100vh - 2rem);
+  height: calc(100vh - 0.1rem);
   display: flex;
   flex-direction: column;
   border-right: 1px solid #dfe1e5;

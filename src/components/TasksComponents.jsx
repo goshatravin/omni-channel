@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import Logo from '../theme/img/telegram.png';
 
@@ -55,7 +56,7 @@ const Circle = styled.div`
 
 const TasksComponents = (props) => {
   const { taskValue, taskHandler } = props;
-  const data = taskValue.map((item) => {
+  const data = taskValue.results.map((item) => {
     return (
       <TaskDiv key={item.id} onClick={() => taskHandler(item)}>
         <Section>
@@ -63,21 +64,25 @@ const TasksComponents = (props) => {
             <img src={Logo} alt="" />
           </Block>
           <Block>
-            <P>{item.name}</P>
+            <P>{item.fullname}</P>
             <Pbottom>
-              <Span>Оператор:</Span> {item.operator}
+              <Span>Оператор:</Span> {item.created_by}
             </Pbottom>
             <p>
-              <Span>Статус:</Span> {item.status}
+              <Span>Статус:</Span> {/* FIX */}
             </p>
           </Block>
           <Block>
-            <Span>{item.time}</Span>
+            <Span>
+              {item.updated_at !== null
+                ? moment(item.updated_at).format('DD.MM.YY, HH.mm')
+                : moment(item.created_at).format('DD.MM.YY, HH.mm')}
+            </Span>
           </Block>
         </Section>
         <Section>
-          <Block>{item.text}</Block>
-          <Block>{item.new ? <Circle>{item.count}</Circle> : ''}</Block>
+          {/* FIX <Block>{item.text}</Block> */}
+          {/* FIX <Block>{item.new ? <Circle>{item.count}</Circle> : ''}</Block>  */}
         </Section>
       </TaskDiv>
     );

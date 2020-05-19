@@ -1,6 +1,6 @@
 import actionTypes from '../constants';
 // import sessionServices from '../services/sessionServices';
-import Api from '../services/api';
+import { Api } from '../services/api';
 
 const sessionUser = (path) => async (dispatch) => {
   dispatch({

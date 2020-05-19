@@ -21,9 +21,9 @@ const App = (props) => {
           <Route path="/login">
             <Auth />
           </Route>
-          <Route path="/qwerty">
+          {/* <Route path="/qwerty">
             <Dashboard />
-          </Route>
+          </Route> */}
           <PrivateRoute exact path="/main" dispatch={dispatch}>
             <Dashboard />
           </PrivateRoute>

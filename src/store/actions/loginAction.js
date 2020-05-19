@@ -1,7 +1,7 @@
 import { Base64 } from 'js-base64';
 import actionTypes from '../constants';
 // import loginServices from '../services/loginServices';
-import api from '../services/api';
+import { Api } from '../services/api';
 
 const authUser = (login, password) => async (dispatch) => {
   dispatch({
@@ -13,7 +13,7 @@ const authUser = (login, password) => async (dispatch) => {
       login,
       password,
     };
-    const user = await api('login', 'post', userData)
+    const user = await Api('login', 'post', userData)
       .then((response) => {
         const { data } = response;
         if (data.error) {
