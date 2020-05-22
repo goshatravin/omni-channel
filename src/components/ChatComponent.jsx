@@ -46,27 +46,27 @@ const StyledP = styled.p`
 `;
 const Input = styled.input``;
 const ChatComponent = (props) => {
+  console.log(props);
   const { data } = props;
-  const message = data.map((item) => {
-    {
-      return item.from ? (
-        <TimeL key={item.id}>
-          <From>
-            <p>{item.message}</p>
-          </From>
-          <StyledP>{item.time}</StyledP>
-        </TimeL>
-      ) : (
-        <TimeR key={item.id}>
-          <My>
-            <p>{item.message}</p>
-          </My>
-          <StyledP>{item.time}</StyledP>
-        </TimeR>
-      );
-    }
+  const message = data.results.map((item) => {
+    console.log(item);
+    // return item.from ? (
+    //   <TimeL key={item.id}>
+    //     <From>
+    //       <p>{item.message}</p>
+    //     </From>
+    //     <StyledP>{item.time}</StyledP>
+    //   </TimeL>
+    // ) : (
+    //   <TimeR key={item.id}>
+    //     <My>
+    //       <p>{item.message}</p>
+    //     </My>
+    //     <StyledP>{item.time}</StyledP>
+    //   </TimeR>
+    // );
   });
-  return <Chat>{message}</Chat>;
+  return <Chat>qwe</Chat>;
 };
 
 export default ChatComponent;

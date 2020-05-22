@@ -1,72 +1,86 @@
 import actionTypes from '../constants';
-import { Omnichannel } from '../services/api';
+import axios from '../services/axios';
 
-const getCases = (path) => async (dispatch) => {
-  dispatch({
-    type: actionTypes.TASK_REQUEST,
-  });
-
-  try {
-    const tasks = await Omnichannel(path, 'get')
-      .then((response) => {
-        const { data } = response;
-        if (data.error) {
-          throw data;
-        }
-        const { value } = response.data;
-        return value;
-      })
-      .catch((error) => {
-        throw error;
-      });
-    dispatch({
-      type: actionTypes.TASK_SUCCESS,
-      payload: {
-        tasks,
-      },
-    });
-  } catch (error) {
-    dispatch({
-      type: actionTypes.TASK_FAILURE,
-      payload: {
-        error,
-      },
-    });
-  }
+const ticketRequest = () => {
+  return {
+    type: actionTypes.TICKET_REQUEST,
+  };
 };
 
-const getCase = (path) => async (dispatch) => {
-  dispatch({
-    type: actionTypes.TASK_INFO_REQUEST,
-  });
-
-  try {
-    const tasks = await Omnichannel(path, 'post')
-      .then((response) => {
-        const { data } = response;
-        if (data.error) {
-          throw data;
-        }
-        const { value } = response.data;
-        return value;
-      })
-      .catch((error) => {
-        throw error;
-      });
-    dispatch({
-      type: actionTypes.TASK_INFO_REQUEST,
-      payload: {
-        tasks,
-      },
-    });
-  } catch (error) {
-    dispatch({
-      type: actionTypes.TASK_INFO_FAILURE,
-      payload: {
-        error,
-      },
-    });
-  }
+const ticketSuccess = (data) => {
+  return {
+    type: actionTypes.TICKET_SUCCESS,
+    payload: {
+      data,
+    },
+  };
 };
 
-export { getCases, getCase };
+const ticketFailure = (error) => {
+  return {
+    type: actionTypes.TICKET_FAILURE,
+    payload: {
+      error,
+    },
+  };
+};
+
+const ticketInfoRequest = () => {
+  return {
+    type: actionTypes.TICKET_INFO_REQUEST,
+  };
+};
+const ticketInfoSuccess = (data) => {
+  return {
+    type: actionTypes.TICKET_INFO_SUCCESS,
+    payload: {
+      data,
+    },
+  };
+};
+const ticketInfoFailure = (error) => {
+  return {
+    type: actionTypes.TICKET_INFO_FAILURE,
+    payload: {
+      error,
+    },
+  };
+};
+const getTicket = (path) => async (dispatch) => {
+  dispatch(ticketRequest());
+  return axios(`${process.env.REACT_APP_URL_OMNICHANNEL}${path}`, {
+    method: 'GET',
+  })
+    .then((response) => {
+      const { data } = response;
+      if (data.error) {
+        throw data;
+      }
+      const { value } = data;
+      dispatch(ticketSuccess(value));
+    })
+    .catch((error) => {
+      dispatch(ticketFailure(error));
+    });
+};
+
+const getTicketInfo = (path) => async (dispatch) => {
+  dispatch(ticketInfoRequest());
+  return axios(`${process.env.REACT_APP_URL_OMNICHANNEL}${path}`, {
+    method: 'GET',
+  })
+    .then((response) => {
+      console.log(response);
+      const { data } = response;
+      if (data.error) {
+        throw data;
+      }
+      const { value } = data;
+      dispatch(ticketInfoSuccess(value));
+    })
+    .catch((error) => {
+      dispatch(ticketInfoFailure(error));
+    });
+};
+
+export { getTicket, getTicketInfo };

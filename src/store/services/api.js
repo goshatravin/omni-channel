@@ -1,6 +1,15 @@
 import axios from 'axios';
 
-axios.defaults.withCredentials = true;
+// export default axios.create({
+//   baseURL: `${process.env.REACT_APP_URL}`,
+//   withCredentials: true,
+//   headers: {
+//     Authorization: `Basic ${process.env.REACT_APP_SECRET_TOKEN}`,
+//     'Content-Type': 'application/json;charset=utf-8',
+//   },
+// });
+
+// axios.defaults.withCredentials = true;
 const Api = (path, method, data) => {
   return axios({
     method,
@@ -23,5 +32,15 @@ const Omnichannel = (path, method, data) => {
     data,
   });
 };
+// const ReferenceBook = (method) => {
+//   return axios({
+//     method,
+//     url: `${process.env.REACT_APP_URL_OMNICHANNEL}`,
+//     headers: {
+//       Authorization: `Basic ${process.env.REACT_APP_URL_REFERENCEBOOK}`,
+//       'Content-Type': 'application/json;charset=utf-8',
+//     },
+//   });
+// };
 
 export { Api, Omnichannel };

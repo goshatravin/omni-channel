@@ -55,13 +55,16 @@ const Circle = styled.div`
 `;
 
 const TasksComponents = (props) => {
-  const { taskValue, taskHandler } = props;
-  const data = taskValue.results.map((item) => {
+  const { ticketValue, ticketHandler, referenceValue } = props;
+  const { results } = ticketValue;
+  const data = results.map((item) => {
     return (
-      <TaskDiv key={item.id} onClick={() => taskHandler(item)}>
+      <TaskDiv key={item.id} onClick={() => ticketHandler(item)}>
         <Section>
           <Block>
-            <img src={Logo} alt="" />
+            {referenceValue
+              .filter((ref) => ref.id === item.channel_id)
+              .map((qwer) => qwer.name)}
           </Block>
           <Block>
             <P>{item.fullname}</P>
@@ -89,9 +92,20 @@ const TasksComponents = (props) => {
   });
   return <>{data}</>;
 };
+TasksComponents.defaultProps = {
+  results: [],
+};
 
 TasksComponents.propTypes = {
-  // taskValue: PropTypes.array.isRequired,
+  ticketValue: PropTypes.shape({
+    count: PropTypes.number,
+    next: PropTypes.string,
+    previous: PropTypes.string,
+    result: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
+  ticketHandler: PropTypes.func.isRequired,
+  referenceValue: PropTypes.arrayOf(PropTypes.object).isRequired,
+  results: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default TasksComponents;

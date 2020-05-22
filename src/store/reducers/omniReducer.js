@@ -1,53 +1,53 @@
 import actionTypes from '../constants';
 
 const initialState = {
-  task: [],
-  taskInfo: [],
+  ticket: null,
+  messageTicket: null,
   error: null,
-  taskLoading: false,
-  taskInfoLoading: false,
+  ticketLoading: false,
+  ticketMessageLoading: false,
 };
 
 const omniReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.TASK_REQUEST:
+    case actionTypes.TICKET_REQUEST:
       return {
-        task: [],
-        taskInfo: [],
+        ticket: null,
+        messageTicket: null,
         error: null,
         taskLoading: true,
       };
-    case actionTypes.TASK_SUCCESS:
+    case actionTypes.TICKET_SUCCESS:
       return {
-        taskInfo: [],
-        task: action.payload.tasks,
+        messageTicket: null,
+        ticket: action.payload.data,
         error: null,
-        taskLoading: false,
+        ticketLoading: false,
       };
-    case actionTypes.TASK_FAILURE:
+    case actionTypes.TICKET_FAILURE:
       return {
-        taskInfo: [],
-        task: [],
+        messageTicket: null,
+        ticket: null,
         error: action.payload,
-        taskLoading: false,
+        ticketLoading: false,
       };
-    case actionTypes.TASK_INFO_REQUEST:
+    case actionTypes.TICKET_INFO_REQUEST:
       return {
         ...state,
-        taskInfoLoading: true,
+        ticketInfoLoading: true,
       };
-    case actionTypes.TASK_INFO_SUCCESS:
+    case actionTypes.TICKET_INFO_SUCCESS:
       return {
         ...state,
-        taskInfoLoading: false,
-        taskInfo: action.payload,
+        ticketInfoLoading: false,
+        messageTicket: action.payload.data,
       };
-    case actionTypes.TASK_INFO_FAILURE:
+    case actionTypes.TICKET_INFO_FAILURE:
       return {
         ...state,
-        taskInfoLoading: false,
-        taskInfo: [],
-        error: action.payload,
+        ticketInfoLoading: false,
+        messageTicket: [],
+        error: action.payload.error,
       };
     default:
       return state;

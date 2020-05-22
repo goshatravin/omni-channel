@@ -6,7 +6,7 @@ import ErrorComponent from '../../components/ErrorComponents';
 import InputComponent from '../../components/InputComponent';
 import ButtonComponent from '../../components/ButtonComponent';
 import LogoComponent from '../../components/LogoComponents';
-import loginAction from '../../store/actions/loginAction';
+import { authUser } from '../../store/actions/loginAction';
 import errorAction from '../../store/actions/ui/errorAction';
 import Div from '../../components/layout/Flexbox';
 import FormBox from '../../components/layout/Form';
@@ -21,7 +21,7 @@ const Auth = (props) => {
     e.preventDefault();
     setSubmitted(true);
     if (login.length > 2 && password.length > 2) {
-      dispatch(loginAction(login, password));
+      dispatch(authUser(login, password));
     } else {
       dispatch(errorAction());
     }
@@ -30,7 +30,7 @@ const Auth = (props) => {
     return (
       <Div className="login" direction="column">
         <LogoComponent />
-        <ErrorComponent submitted={submitted} value={error} />
+        <ErrorComponent submitted={submitted} error={error} />
         <FormBox
           onSubmit={(e) => {
             submitForm(e);
@@ -90,6 +90,7 @@ Auth.defaultProps = {
 };
 
 const mapStateToProps = (state) => {
+  console.log(state);
   const { loggedIn, error } = state.loginReducer;
   return {
     loggedIn,

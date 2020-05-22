@@ -11,11 +11,12 @@ const Name = styled.div`
   align-items: center;
 `;
 const ChatHeaderComponent = (props) => {
-  const data = { id: 1, name: 'Andery Victorov' };
+  const { data } = props;
   return (
     <Header>
       <Name>
-        <p>{data.name}</p>
+        {/* <p>{data.fullname}</p> */}
+        <p>213213</p>
       </Name>
     </Header>
   );

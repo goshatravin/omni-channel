@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import TasksComponent from '../../components/TasksComponents';
 import InputComponent from '../../components/InputComponent';
 import SearchComponent from '../../components/SearchComponent';
-import { getCases, getCase } from '../../store/actions/omniAction';
+import { getTicket, getTicketInfo } from '../../store/actions/omniAction';
+import { getReference } from '../../store/actions/referenceAction';
 import {
   Grid,
   Col,
@@ -12,25 +13,34 @@ import {
   BlockOverflow,
   FlexBlock,
 } from '../../components/layout/Grid';
-import message from '../../chat.json';
 import ChatComponent from '../../components/ChatComponent';
 import ChatHeaderComponent from '../../components/ChatHeaderComponent';
 
 const Dashboard = (props) => {
-  const { dispatch, task, taskLoading } = props;
+  const {
+    dispatch,
+    ticket,
+    ticketLoading,
+    reference,
+    referenceIsLoading,
+    messageTicket,
+    ticketInfoLoading,
+  } = props;
+  console.log(props);
   const [page, setPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
   const [chatMessage, setChatMessage] = useState('');
-  const [dialog, setDialogue] = useState([]);
+  // const [dialog, setDialogue] = useState([]);
 
   useEffect(() => {
-    dispatch(getCases('/case'));
+    dispatch(getTicket('/ticket'));
+    dispatch(getReference('/reference_book/channel_type'));
   }, [page]);
-  const taskHandler = (taskInfo) => {
-    const { id } = taskInfo;
-    dispatch(getCase(`/case/${id}`));
+  const ticketHandler = (ticketInfo) => {
+    const { id } = ticketInfo;
+    dispatch(getTicketInfo(`/signal/${id}`));
   };
-  if (!taskLoading && task.length !== 0) {
+  if (!ticketLoading && ticket && !referenceIsLoading && reference) {
     return (
       <Grid>
         <Row>
@@ -39,14 +49,18 @@ const Dashboard = (props) => {
               <SearchComponent searchHandler={setSearchValue} />
             </Block>
             <BlockOverflow>
-              <TasksComponent taskValue={task} taskHandler={taskHandler} />
+              <TasksComponent
+                ticketValue={ticket}
+                referenceValue={reference}
+                ticketHandler={ticketHandler}
+              />
             </BlockOverflow>
           </Col>
           <Col size={2}>
-            {dialog.length === 0 ? (
+            {messageTicket && !ticketInfoLoading ? (
               <FlexBlock>
-                <ChatHeaderComponent data={dialog} />
-                <ChatComponent data={message} />
+                <ChatHeaderComponent />
+                <ChatComponent data={messageTicket} />
                 <InputComponent
                   className="input_chat"
                   inputType="input"
@@ -72,13 +86,24 @@ const Dashboard = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  console.log(state);
   const { loggedIn, error } = state.loginReducer;
-  const { task, taskLoading } = state.omniReducer;
+  const {
+    ticket,
+    ticketLoading,
+    messageTicket,
+    ticketInfoLoading,
+  } = state.omniReducer;
+  const { reference, referenceIsLoading } = state.referenceReducer;
   return {
     loggedIn,
     error,
-    task,
-    taskLoading,
+    ticket,
+    ticketLoading,
+    reference,
+    referenceIsLoading,
+    messageTicket,
+    ticketInfoLoading,
   };
 };
 
