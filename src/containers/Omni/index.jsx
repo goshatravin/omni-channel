@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
+import { getTicket, getTicketInfo } from '../../store/actions/omniAction';
+import { getReference } from '../../store/actions/referenceAction';
+import ticketUpdate from '../../store/actions/socketAction';
 import TasksComponent from '../../components/TasksComponents';
 import InputComponent from '../../components/InputComponent';
 import SearchComponent from '../../components/SearchComponent';
-import { getTicket, getTicketInfo } from '../../store/actions/omniAction';
-import { getReference } from '../../store/actions/referenceAction';
+import ChatComponent from '../../components/ChatComponent';
+import ChatHeaderComponent from '../../components/ChatHeaderComponent';
 import {
   Grid,
   Col,
@@ -13,34 +17,45 @@ import {
   BlockOverflow,
   FlexBlock,
 } from '../../components/layout/Grid';
-import ChatComponent from '../../components/ChatComponent';
-import ChatHeaderComponent from '../../components/ChatHeaderComponent';
+
+const ENDPOINT = '#';
 
 const Dashboard = (props) => {
   const {
     dispatch,
     ticket,
-    ticketLoading,
+    ticketIsLoading,
+    ticketInfo,
     reference,
     referenceIsLoading,
-    messageTicket,
-    ticketInfoLoading,
+    ticketInfoIsLoading,
   } = props;
-  console.log(props);
+  useEffect(() => {
+    const socket = io(ENDPOINT);
+    socket.emit('broadcast');
+    socket.on('ticekt update', (data) => {
+      dispatch(ticketUpdate(data));
+    });
+  }, []);
+  // eslint-disable-next-line no-unused-vars
   const [page, setPage] = useState(1);
-  const [searchValue, setSearchValue] = useState('');
-  const [chatMessage, setChatMessage] = useState('');
-  // const [dialog, setDialogue] = useState([]);
-
   useEffect(() => {
     dispatch(getTicket('/ticket'));
     dispatch(getReference('/reference_book/channel_type'));
   }, [page]);
-  const ticketHandler = (ticketInfo) => {
-    const { id } = ticketInfo;
-    dispatch(getTicketInfo(`/signal/${id}`));
+  const [searchValue, setSearchValue] = useState('');
+  useEffect(() => {
+    console.log(searchValue);
+  }, [searchValue]);
+
+  const [chatMessage, setChatMessage] = useState('');
+  const [headerInfo, setHeaderInfo] = useState({});
+
+  const ticketHandler = (data) => {
+    setHeaderInfo(data);
+    dispatch(getTicketInfo(`/signal/${data.ticket_id}`));
   };
-  if (!ticketLoading && ticket && !referenceIsLoading && reference) {
+  if (!ticketIsLoading && !referenceIsLoading && ticket && reference) {
     return (
       <Grid>
         <Row>
@@ -57,10 +72,10 @@ const Dashboard = (props) => {
             </BlockOverflow>
           </Col>
           <Col size={2}>
-            {messageTicket && !ticketInfoLoading ? (
+            {ticketInfo && !ticketInfoIsLoading ? (
               <FlexBlock>
-                <ChatHeaderComponent />
-                <ChatComponent data={messageTicket} />
+                <ChatHeaderComponent data={headerInfo} />
+                <ChatComponent data={ticketInfo} />
                 <InputComponent
                   className="input_chat"
                   inputType="input"
@@ -74,10 +89,10 @@ const Dashboard = (props) => {
                 />
               </FlexBlock>
             ) : (
-              'пощел ты'
+              ''
             )}
           </Col>
-          <Col size={4}>2</Col>
+          <Col size={4}></Col>
         </Row>
       </Grid>
     );
@@ -86,24 +101,30 @@ const Dashboard = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
-  const { loggedIn, error } = state.loginReducer;
+  /**
+   * mapStateToProps() returns a redux state
+   * @ticket - contains information about new appeals
+   * @ticketIsLoading - constant which shows loading of ticket
+   * @ticketInfo - contains ticket information such as chating history
+   * @ticketError - contains information about ticket errors
+   * @ticketInfoIsLoading - constant which shows loading of ticket chat history
+   */
   const {
     ticket,
-    ticketLoading,
-    messageTicket,
-    ticketInfoLoading,
+    ticketIsLoading,
+    ticketInfo,
+    ticketError,
+    ticketInfoIsLoading,
   } = state.omniReducer;
   const { reference, referenceIsLoading } = state.referenceReducer;
   return {
-    loggedIn,
-    error,
     ticket,
-    ticketLoading,
+    ticketIsLoading,
+    ticketInfo,
     reference,
     referenceIsLoading,
-    messageTicket,
-    ticketInfoLoading,
+    ticketError,
+    ticketInfoIsLoading,
   };
 };
 

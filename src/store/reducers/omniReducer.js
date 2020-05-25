@@ -2,52 +2,52 @@ import actionTypes from '../constants';
 
 const initialState = {
   ticket: null,
-  messageTicket: null,
-  error: null,
-  ticketLoading: false,
-  ticketMessageLoading: false,
+  ticketIsLoading: false,
+  ticketInfo: null,
+  ticketError: null,
+  ticketInfoIsLoading: false,
 };
 
 const omniReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TICKET_REQUEST:
       return {
-        ticket: null,
-        messageTicket: null,
-        error: null,
-        taskLoading: true,
+        ...state,
+        ticketIsLoading: true,
       };
     case actionTypes.TICKET_SUCCESS:
       return {
-        messageTicket: null,
+        ...state,
+        ticketIsLoading: false,
         ticket: action.payload.data,
-        error: null,
-        ticketLoading: false,
       };
     case actionTypes.TICKET_FAILURE:
       return {
-        messageTicket: null,
-        ticket: null,
-        error: action.payload,
-        ticketLoading: false,
+        ...state,
+        ticketIsLoading: false,
+        ticketError: action.payload,
       };
     case actionTypes.TICKET_INFO_REQUEST:
       return {
         ...state,
-        ticketInfoLoading: true,
+        ticketInfoIsLoading: true,
       };
     case actionTypes.TICKET_INFO_SUCCESS:
       return {
         ...state,
-        ticketInfoLoading: false,
-        messageTicket: action.payload.data,
+        ticketInfoIsLoading: false,
+        ticketInfo: action.payload.data,
       };
     case actionTypes.TICKET_INFO_FAILURE:
       return {
         ...state,
         ticketInfoLoading: false,
-        messageTicket: [],
-        error: action.payload.error,
+        ticketError: action.payload.error,
+      };
+    case actionTypes.SOCKET_NEW_ASSIGNED_TICKET:
+      return {
+        ...state,
+        ticket: [action.payload.data, ...state.ticket],
       };
     default:
       return state;

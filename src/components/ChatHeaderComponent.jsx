@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 const Header = styled.div`
   border-bottom: 1px solid #dfe1e5;
   height: 40px;
+  display: flex;
+  align-items: center;
 `;
 const Name = styled.div`
   display: flex;
@@ -15,8 +17,7 @@ const ChatHeaderComponent = (props) => {
   return (
     <Header>
       <Name>
-        {/* <p>{data.fullname}</p> */}
-        <p>213213</p>
+        <p>{data.assigned_to}</p>
       </Name>
     </Header>
   );

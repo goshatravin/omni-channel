@@ -56,10 +56,9 @@ const Circle = styled.div`
 
 const TasksComponents = (props) => {
   const { ticketValue, ticketHandler, referenceValue } = props;
-  const { results } = ticketValue;
-  const data = results.map((item) => {
+  const data = ticketValue.results.map((item) => {
     return (
-      <TaskDiv key={item.id} onClick={() => ticketHandler(item)}>
+      <TaskDiv key={item.ticket_id} onClick={() => ticketHandler(item)}>
         <Section>
           <Block>
             {referenceValue
@@ -67,12 +66,12 @@ const TasksComponents = (props) => {
               .map((qwer) => qwer.name)}
           </Block>
           <Block>
-            <P>{item.fullname}</P>
+            <P>{item.created_by}</P>
             <Pbottom>
-              <Span>Оператор:</Span> {item.created_by}
+              <Span>Оператор:</Span> {item.assigned_to}
             </Pbottom>
             <p>
-              <Span>Статус:</Span> {/* FIX */}
+              <Span>Статус:</Span> {item.status_type_id}
             </p>
           </Block>
           <Block>

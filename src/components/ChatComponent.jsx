@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 
 const Chat = styled.div`
   /* border: 1px solid red; */
@@ -45,28 +46,31 @@ const StyledP = styled.p`
   font-size: 14px;
 `;
 const Input = styled.input``;
+
 const ChatComponent = (props) => {
-  console.log(props);
   const { data } = props;
   const message = data.results.map((item) => {
-    console.log(item);
-    // return item.from ? (
-    //   <TimeL key={item.id}>
-    //     <From>
-    //       <p>{item.message}</p>
-    //     </From>
-    //     <StyledP>{item.time}</StyledP>
-    //   </TimeL>
-    // ) : (
-    //   <TimeR key={item.id}>
-    //     <My>
-    //       <p>{item.message}</p>
-    //     </My>
-    //     <StyledP>{item.time}</StyledP>
-    //   </TimeR>
-    // );
+    return item.direction_type_id === '1' ? (
+      <TimeL key={item.id}>
+        <From>
+          <p>{item.detail}</p>
+        </From>
+        <StyledP>{moment(item.updated_at).format('DD.MM.YY, HH.mm')}</StyledP>
+      </TimeL>
+    ) : (
+      <TimeR key={item.id}>
+        <My>
+          <p>{item.detail}</p>
+        </My>
+        <StyledP>{moment(item.updated_at).format('DD.MM.YY, HH.mm')}</StyledP>
+      </TimeR>
+    );
   });
-  return <Chat>qwe</Chat>;
+  return (
+    <>
+      <Chat>{message}</Chat>
+    </>
+  );
 };
 
 export default ChatComponent;
