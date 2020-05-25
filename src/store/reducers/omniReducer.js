@@ -47,7 +47,10 @@ const omniReducer = (state = initialState, action) => {
     case actionTypes.SOCKET_NEW_ASSIGNED_TICKET:
       return {
         ...state,
-        ticket: [action.payload.data, ...state.ticket],
+        ticket: {
+          ...state.ticket,
+          results: [action.payload.data, ...state.ticket.results],
+        },
       };
     default:
       return state;
