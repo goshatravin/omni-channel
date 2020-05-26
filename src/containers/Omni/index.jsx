@@ -18,9 +18,8 @@ import {
   FlexBlock,
 } from '../../components/layout/Grid';
 
-const ENDPOINT = '#';
-
-const Dashboard = (props) => {
+export const Dashboard = (props) => {
+  console.log(props);
   const {
     dispatch,
     ticket,
@@ -30,26 +29,28 @@ const Dashboard = (props) => {
     referenceIsLoading,
     ticketInfoIsLoading,
   } = props;
+  const [chatMessage, setChatMessage] = useState('');
+  const [headerInfo, setHeaderInfo] = useState({});
+  const ENDPOINT = 'http://localhost:8084';
+  const [page, setPage] = useState(1);
+  const [searchValue, setSearchValue] = useState('');
+
   useEffect(() => {
     const socket = io(ENDPOINT);
-    socket.emit('broadcast');
-    socket.on('ticekt update', (data) => {
+    socket.emit('omnichannelConnect');
+    socket.on('omnichannelNotify', (data) => {
       dispatch(ticketUpdate(data));
     });
   }, []);
-  // eslint-disable-next-line no-unused-vars
-  const [page, setPage] = useState(1);
+
   useEffect(() => {
     dispatch(getTicket('/ticket'));
     dispatch(getReference('/reference_book/channel_type'));
   }, [page]);
-  const [searchValue, setSearchValue] = useState('');
+
   useEffect(() => {
     console.log(searchValue);
   }, [searchValue]);
-
-  const [chatMessage, setChatMessage] = useState('');
-  const [headerInfo, setHeaderInfo] = useState({});
 
   const ticketHandler = (data) => {
     setHeaderInfo(data);
@@ -97,7 +98,7 @@ const Dashboard = (props) => {
       </Grid>
     );
   }
-  return 'loading';
+  return <p>loading</p>;
 };
 
 const mapStateToProps = (state) => {
@@ -108,6 +109,8 @@ const mapStateToProps = (state) => {
    * @ticketInfo - contains ticket information such as chating history
    * @ticketError - contains information about ticket errors
    * @ticketInfoIsLoading - constant which shows loading of ticket chat history
+   * @reference  - constains information about channel_type (viber, telegram...)
+   * @referenceIsLoading - constant which shows loading of reference
    */
   const {
     ticket,

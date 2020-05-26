@@ -58,7 +58,11 @@ const TasksComponents = (props) => {
   const { ticketValue, ticketHandler, referenceValue } = props;
   const data = ticketValue.results.map((item) => {
     return (
-      <TaskDiv key={item.ticket_id} onClick={() => ticketHandler(item)}>
+      <TaskDiv
+        className="TaskDiv"
+        key={item.ticket_id}
+        onClick={() => ticketHandler(item)}
+      >
         <Section>
           <Block>
             {referenceValue
@@ -66,8 +70,8 @@ const TasksComponents = (props) => {
               .map((qwer) => qwer.name)}
           </Block>
           <Block>
-            <P>{item.created_by}</P>
-            <Pbottom>
+            <P className="created">{item.created_by}</P>
+            <Pbottom className="Operator">
               <Span>Оператор:</Span> {item.assigned_to}
             </Pbottom>
             <p>
