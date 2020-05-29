@@ -1,38 +1,44 @@
+/**
+ * File: ticketContainer.jsx
+ * -----------------
+ * Ticket container for handle logic part
+ */
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
-import TicketComponent from '../../components/TicketComponents'; // Dump component for rendering tickets
-// import SearchComponent from '../../components/SearchComponent'; // Dump component from rendering search bar
-import { getTicket } from '../../store/actions/omniAction';
+import TicketComponent from '../../components/TicketComponents';
+import { getTicket, getTicketInfo } from '../../store/actions/omniAction';
 
-// const TaskDiv = styled.div`
-//   cursor: pointer;
-//   padding: 1rem 0.5rem;
-//   font-size: 14px;
-//   width: 315px;
-//   height: 100px;
-//   background: yellow;
-//   margin-bottom: 1rem;
-//   margin-right: 0.5rem;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   color: ${(props) => props.theme.colors.text};
-//   border: 1px solid ${(props) => props.theme.colors.input_border};
-//   border-radius: 10px;
-//   background: white;
-//   outline: none;
-//   &::placeholder {
-//     color: ${(props) => props.theme.colors.input_placeholder};
-//   }
-// `;
+/**
+ * @param {function} dispatch - redux function to call redux action
+ * @param {boolean} ticketIsLoading - change depends on api call results
+ * @param {array} ticket - array of ticket
+ * @param {string} ticketError - if api call fail, ticketError will contain error
+ * @param {string} hasMore stirng with information about , how many data can i get
+ * @param {string} searchValue contains information of user input
+ *
+ */
 const TicketContainer = (props) => {
-  console.log(props);
-  const { dispatch, ticketIsLoading, ticket, ticketError, hasMore } = props;
-  console.log(ticket);
-  const [page, setPage] = useState(1); // setup starting page for calling ticket api
-  const [searchValue, setSearchValue] = useState('');
+  const {
+    dispatch,
+    ticketIsLoading,
+    ticket,
+    ticketError,
+    hasMore,
+    searchValue,
+  } = props;
 
+  // constant for calling api with current page
+  const [page, setPage] = useState(1);
+  // constant with id of click ticket
+  const [ticketValue, setTicketValue] = useState({});
+
+  /**
+   *
+   * lastTicektRef() Fucntion looking for last element in ticket list, if  100% of last element on screen
+   * and @hasMore  !== '', launch @setPage hook whitch add + 1 page.
+   *
+   */
   const observer = useRef();
   const lastTicektRef = useCallback(
     (node) => {
@@ -50,63 +56,61 @@ const TicketContainer = (props) => {
     },
     [ticketIsLoading, hasMore]
   );
-  //
+
+  /**
+   * UseEffect hook looking for @page constant, and if @page change trigger dispatch
+   * @param {function} getTicket redux action return new tickets
+   * @param {string} searchValue contains information of user input
+   */
   useEffect(() => {
     dispatch(getTicket('/ticket', searchValue, page));
   }, [page]);
 
+  /**
+   * UseEffect hook looking for @ticketValue constant, and if @ticketValue change
+   * trigger dispatch
+   * @param {function} getTicketInfo redux action return ticekt chat history
+   * @param {string} ticket_id if of clicked ticket
+   */
+  useEffect(() => {
+    if (ticketValue.ticket_id !== undefined) {
+      dispatch(getTicketInfo(`/signal/${ticketValue.ticket_id}`));
+    }
+  }, [ticketValue]);
+
   return (
     <>
-      {/* <SearchComponent searchHandler={setSearchValue} /> */}
       <TicketComponent
-        lastHendler={lastTicektRef}
+        lastHandle={lastTicektRef}
         ticket={ticket}
-        loading={ticketIsLoading}
-        error={ticketError}
+        ticketIsLoading={ticketIsLoading}
+        ticketError={ticketError}
+        setTicketValue={setTicketValue}
       />
-      {/* {ticket.map((item, index) => {
-        if (ticket.length === index + 1) {
-          return (
-            <TaskDiv ref={lastTicektRef} key={item.ticket_id}>
-              {item.created_by}
-            </TaskDiv>
-          );
-        } else {
-          return <TaskDiv key={item.ticket_id}>{item.created_by}</TaskDiv>;
-        }
-      })}
-      <div>{ticketIsLoading && 'Loading...'}</div>
-      <div>{ticketError && 'Error'}</div> */}
     </>
   );
-  // return !ticketIsLoading && !ticketError
-  //   ? ticket.map((item, index) => {
-  //       if (ticket.length === index + 1) {
-  //         return (
-  //           <TaskDiv ref={lastTicektRef} key={item.ticket_id}>
-  //             {item.created_by}
-  //           </TaskDiv>
-  //         );
-  //       }
-  //       return <TaskDiv key={item.ticket_id}>{item.created_by}</TaskDiv>;
-  //     })
-  //   : 'Loading...';
+};
+TicketContainer.defaultProps = {
+  ticket: [],
+  ticketError: null,
+  searchValue: '',
+  hasMore: null,
+};
+
+TicketContainer.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  ticketIsLoading: PropTypes.bool.isRequired,
+  ticket: PropTypes.arrayOf(PropTypes.object),
+  ticketError: PropTypes.string,
+  hasMore: PropTypes.string,
+  searchValue: PropTypes.string,
 };
 
 const mapStateToProps = (state) => {
-  const {
-    ticket,
-    ticketError,
-    ticketInfo,
-    ticketInfoIsLoading,
-    ticketIsLoading,
-    hasMore,
-  } = state.omniReducer;
+  const { ticket, ticketError, ticketIsLoading, hasMore } = state.omniReducer;
   return {
     ticket,
     ticketError,
-    ticketInfo,
-    ticketInfoIsLoading,
     ticketIsLoading,
     hasMore,
   };

@@ -10,7 +10,6 @@ const initialState = {
 };
 
 const omniReducer = (state = initialState, action) => {
-  console.log(state, action);
   switch (action.type) {
     case actionTypes.TICKET_REQUEST:
       return {

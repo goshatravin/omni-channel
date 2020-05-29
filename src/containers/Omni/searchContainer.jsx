@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import SearchComponent from '../../components/SearchComponent';
 
 const SearchContainer = (props) => {
-  console.log(props);
+  const { setSearchValue } = props;
   const searchHandler = (e) => {
-    console.log(e);
-    props.setSearchValue(e);
+    setSearchValue(e);
   };
   return <SearchComponent searchHandler={searchHandler} />;
 };

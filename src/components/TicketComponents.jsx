@@ -48,11 +48,20 @@ const Block = styled.div`
 
 const TicketComponents = (props) => {
   console.log(props);
-  const { lastHendler, ticket, loading, error } = props;
+  const {
+    lastHandle,
+    ticket,
+    ticketIsLoading,
+    ticketError,
+    setTicketValue,
+  } = props;
   /**
-   * @ticketValue -  Object with information about all tickets
-   * @ticketHandler - Function onClick , send data about clicked ticked
-   * @referenceValue - Array with information about channel type eg viber, telegram ...
+   * @param {function} dispatch - redux function to call redux action
+   * @param {boolean} ticketIsLoading - change depends on api call results
+   * @param {array} ticket - array of ticket
+   * @param {string} ticketError - if api call fail, ticketError will contain error
+   * @param {string} hasMore stirng with information about , how many data can i get
+   * @param {string} searchValue contains information of user input
    */
   const data = ticket.map((item, index) => {
     if (ticket.length === index + 1) {
@@ -60,20 +69,20 @@ const TicketComponents = (props) => {
         <TaskDiv
           className="TaskDiv"
           key={item.ticket_id}
-          ref={lastHendler}
-          // onClick={() => ticketHandler(item)}
+          ref={lastHandle}
+          onClick={() => setTicketValue(item)}
         >
           <Section>
             <Block>
               {/* {referenceValue
-                .filter((ref) => ref.channel_id === item.channel_id)
-                .map((qwer) => (
-                  <img
-                    src={qwer.channel_type_id}
-                    key={qwer.channel_type_id}
-                    alt={qwer.channel_type_id}
-                  />
-                ))} */}
+              .filter((ref) => ref.channel_id === item.channel_id)
+              .map((qwer) => (
+                <img
+                  src={qwer.channel_type_id}
+                  key={qwer.channel_type_id}
+                  alt={qwer.channel_type_id}
+                />
+              ))} */}
             </Block>
             <Block>
               <P className="created">{item.created_by}</P>
@@ -99,7 +108,7 @@ const TicketComponents = (props) => {
       <TaskDiv
         className="TaskDiv"
         key={item.ticket_id}
-        // onClick={() => ticketHandler(item)}
+        onClick={() => setTicketValue(item)}
       >
         <Section>
           <Block>
@@ -133,61 +142,26 @@ const TicketComponents = (props) => {
       </TaskDiv>
     );
   });
-  // const data = ticketValue.results.map((item) => {
-  // return (
-  //   <TaskDiv
-  //     className="TaskDiv"
-  //     key={item.ticket_id}
-  //     onClick={() => ticketHandler(item)}
-  //   >
-  //     <Section>
-  //       <Block>
-  //         {referenceValue
-  //           .filter((ref) => ref.channel_id === item.channel_id)
-  //           .map((qwer) => (
-  //             <img
-  //               src={qwer.channel_type_id}
-  //               key={qwer.channel_type_id}
-  //               alt={qwer.channel_type_id}
-  //             />
-  //           ))}
-  //       </Block>
-  //       <Block>
-  //         <P className="created">{item.created_by}</P>
-  //         <Pbottom className="Operator">
-  //           <Span>Оператор:</Span> {item.assigned_to}
-  //         </Pbottom>
-  //         <p>
-  //           <Span>Статус:</Span> {item.status_type_id}
-  //         </p>
-  //       </Block>
-  //       <Block>
-  //         <Span>
-  //           {item.updated_at !== null
-  //             ? moment(item.updated_at).format('DD.MM.YY, HH.mm')
-  //             : moment(item.created_at).format('DD.MM.YY, HH.mm')}
-  //         </Span>
-  //       </Block>
-  //     </Section>
-  //   </TaskDiv>
-  // );
-  // });
-  return <>{data}</>;
+
+  return (
+    <>
+      {data}
+      <div>{ticketIsLoading && 'Loading...'}</div>
+      <div>{ticketError && 'Error'}</div>
+    </>
+  );
 };
 TicketComponents.defaultProps = {
-  results: [],
+  ticket: [],
+  ticketError: null,
 };
 
 TicketComponents.propTypes = {
-  ticketValue: PropTypes.shape({
-    count: PropTypes.number,
-    next: PropTypes.string,
-    previous: PropTypes.string,
-    results: PropTypes.arrayOf(PropTypes.object),
-  }).isRequired,
-  ticketHandler: PropTypes.func.isRequired,
-  referenceValue: PropTypes.arrayOf(PropTypes.object).isRequired,
-  results: PropTypes.arrayOf(PropTypes.object),
+  setTicketValue: PropTypes.func.isRequired,
+  ticket: PropTypes.arrayOf(PropTypes.object),
+  ticketError: PropTypes.string,
+  ticketIsLoading: PropTypes.bool.isRequired,
+  lastHandle: PropTypes.func.isRequired,
 };
 
 export default TicketComponents;

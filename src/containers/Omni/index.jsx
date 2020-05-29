@@ -78,10 +78,11 @@ export const Dashboard = (props) => {
     dispatch(getReference('/reference_book/channel_type'));
   }, [firstLoad]);
 
-  const ticketHandler = (data) => {
-    setHeaderInfo(data);
-    dispatch(getTicketInfo(`/signal/${data.ticket_id}`));
-  };
+  // const ticketHandler = (data) => {
+  //   console.log(data);
+  //   // setHeaderInfo(data);
+  //   // dispatch(getTicketInfo(`/signal/${data.ticket_id}`));
+  // };
   if (!referenceIsLoading) {
     return (
       <Grid>
@@ -91,7 +92,10 @@ export const Dashboard = (props) => {
               <SearchContainer setSearchValue={setSearchValue} />
             </Block>
             <BlockOverflow>
-              <TicketContainer searchValue={searchValue} />
+              <TicketContainer
+                searchValue={searchValue}
+                // ticketHandler={ticketHandler}
+              />
               {/* <TasksComponent
                 // lastBookElementRef={lastTicket}
                 // filtredTicket={filteredTicket}
