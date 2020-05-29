@@ -3,7 +3,7 @@ import actionTypes from '../constants';
 const initialState = {
   reference: null,
   error: null,
-  referenceIsLoading: false,
+  referenceIsLoading: true,
 };
 
 const referenceReducer = (state = initialState, action) => {

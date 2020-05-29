@@ -1,31 +1,37 @@
 import actionTypes from '../constants';
 
 const initialState = {
-  ticket: null,
-  ticketIsLoading: false,
+  ticket: [],
+  ticketIsLoading: true,
   ticketInfo: null,
   ticketError: null,
-  ticketInfoIsLoading: false,
+  ticketInfoIsLoading: true,
+  hasMore: '',
 };
 
 const omniReducer = (state = initialState, action) => {
+  console.log(state, action);
   switch (action.type) {
     case actionTypes.TICKET_REQUEST:
       return {
         ...state,
         ticketIsLoading: true,
+        hasMore: '',
       };
     case actionTypes.TICKET_SUCCESS:
       return {
         ...state,
         ticketIsLoading: false,
-        ticket: action.payload.data,
+        ticket: [...state.ticket, ...action.payload.data.results],
+        // ticket: action.payload.data,
+        hasMore: action.payload.data.next,
       };
     case actionTypes.TICKET_FAILURE:
       return {
         ...state,
         ticketIsLoading: false,
         ticketError: action.payload,
+        hasMore: '',
       };
     case actionTypes.TICKET_INFO_REQUEST:
       return {
@@ -56,4 +62,5 @@ const omniReducer = (state = initialState, action) => {
       return state;
   }
 };
+
 export default omniReducer;

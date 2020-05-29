@@ -1,5 +1,6 @@
+import axios from 'axios';
 import actionTypes from '../constants';
-import axios from '../services/axios';
+// import axios from '../services/axios';
 
 const ticketRequest = () => {
   return {
@@ -46,18 +47,20 @@ const ticketInfoFailure = (error) => {
     },
   };
 };
-const getTicket = (path) => async (dispatch) => {
+const getTicket = (path, query, pageNumber) => async (dispatch) => {
+  console.log(path, query, pageNumber);
   dispatch(ticketRequest());
-  return axios(`${process.env.REACT_APP_URL_OMNICHANNEL}${path}`, {
+  return axios(`http://quasartest.accidentlaw.ru/api/v1/omnichannel/tickets`, {
     method: 'GET',
+    params: { q: query, page: pageNumber },
   })
     .then((response) => {
+      console.log(response);
       const { data } = response;
       if (data.error) {
         throw data;
       }
-      const { value } = data;
-      dispatch(ticketSuccess(value));
+      dispatch(ticketSuccess(data));
     })
     .catch((error) => {
       dispatch(ticketFailure(error));

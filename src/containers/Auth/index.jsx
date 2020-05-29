@@ -90,7 +90,6 @@ Auth.defaultProps = {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   const { loggedIn, error } = state.loginReducer;
   return {
     loggedIn,

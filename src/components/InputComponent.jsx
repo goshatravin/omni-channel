@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Input = styled.input`
+-webkit-appearance: none;
   width: ${(props) => {
     if (props.width) {
       return props.width;
@@ -15,7 +16,6 @@ const Input = styled.input`
   box-shadow: 0px 1px 5px #dfe1e5;
   border-radius: 10px;
   color: ${(props) => props.theme.colors.text};
-  /* border: 1px solid ${(props) => props.theme.colors.input_border}; */
   border: 1px solid ${(props) => {
     if (props.error || (props.validation && props.value === '')) {
       return props.theme.colors.error;

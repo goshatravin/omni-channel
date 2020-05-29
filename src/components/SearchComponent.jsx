@@ -5,7 +5,7 @@ import searchIcon from '../theme/img/search.svg';
 
 const SearchInput = styled.input`
   position: relative;
-  width: 275px;
+  width: 333px;
   backface-visibility: hidden;
   perspective: 1000px;
   height: 45px;
@@ -13,6 +13,7 @@ const SearchInput = styled.input`
   border: 1px solid ${(props) => props.theme.colors.input_border};
   border-radius: 5px;
   padding-left: 3.5rem;
+  padding-right: 1rem;
   /* box-shadow: 0px 1px 5px #dfe1e5; */
   background: white;
   font-size: 16px;
@@ -39,6 +40,7 @@ const SearchComponent = (props) => {
     <Wrapper>
       <img src={searchIcon} alt="search" />
       <SearchInput
+        type="search"
         placeholder={placeholder}
         onChange={(e) => {
           searchHandler(e.target.value);

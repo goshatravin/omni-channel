@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const Grid = styled.div`
   background: ${(props) => props.theme.colors.primary};
+  height: 100%;
 `;
 const Row = styled.div`
   display: flex;
@@ -11,6 +12,7 @@ const Col = styled.div`
   box-sizing: border-box;
   flex: ${(props) => props.size};
   height: calc(100vh - 0.1rem);
+  /* height: 100px; */
   display: flex;
   flex-direction: column;
   border-right: 1px solid #dfe1e5;

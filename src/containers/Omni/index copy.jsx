@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-import { getTicket, getTicketInfo } from '../../store/actions/omniAction';
+// import { getTicket, getTicketInfo } from '../../store/actions/omniAction';
 import { getReference } from '../../store/actions/referenceAction';
 import ticketUpdate from '../../store/actions/socketAction';
 // import TasksComponent from '../../components/TasksComponents'; УБИРАЕМ
@@ -12,7 +12,6 @@ import ChatComponent from '../../components/ChatComponent';
 import ChatHeaderComponent from '../../components/ChatHeaderComponent';
 // import InputSearch from './inputSearch';
 import TicketContainer from './ticketContainer';
-import SearchContainer from './searchContainer';
 
 import {
   Grid,
@@ -63,9 +62,6 @@ export const Dashboard = (props) => {
   // );
 
   // const { loading, newTicket } = InputSearch(searchValue, page);
-  // const hend = (e) => {
-  //   console.log(e);
-  // };
   useEffect(() => {
     const socket = io(ENDPOINT);
     socket.emit('omnichannelConnect');
@@ -80,18 +76,18 @@ export const Dashboard = (props) => {
 
   const ticketHandler = (data) => {
     setHeaderInfo(data);
-    dispatch(getTicketInfo(`/signal/${data.ticket_id}`));
+    // dispatch(getTicketInfo(`/signal/${data.ticket_id}`));
   };
-  if (!referenceIsLoading) {
+  if (!ticketIsLoading && !referenceIsLoading) {
     return (
       <Grid>
         <Row>
           <Col>
             <Block className="Search-Block">
-              <SearchContainer setSearchValue={setSearchValue} />
+              {/* <SearchComponent searchHandler={setSearchValue} /> */}
             </Block>
             <BlockOverflow>
-              <TicketContainer searchValue={searchValue} />
+              <TicketContainer dispatch={dispatch} />
               {/* <TasksComponent
                 // lastBookElementRef={lastTicket}
                 // filtredTicket={filteredTicket}

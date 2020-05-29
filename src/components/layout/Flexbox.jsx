@@ -9,7 +9,7 @@ const Div = styled.div`
   flex-direction: ${(props) => {
     return props.direction;
   }};
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   background: ${(props) => props.theme.colors.primary};
 `;
 
@@ -17,9 +17,11 @@ const Flexbox = (props) => {
   const { className, children, direction } = props;
 
   return (
+    // <Wrapper>
     <Div className={className} direction={direction}>
       {children}
     </Div>
+    // </Wrapper>
   );
 };
 

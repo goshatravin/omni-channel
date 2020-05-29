@@ -21,9 +21,12 @@ const App = (props) => {
           <Route path="/login">
             <Auth />
           </Route>
-          <PrivateRoute exact path="/main" dispatch={dispatch}>
+          <Route>
+            <Dashboard path="/main" />
+          </Route>
+          {/* <PrivateRoute exact path="/main" dispatch={dispatch}>
             <Dashboard />
-          </PrivateRoute>
+          </PrivateRoute> */}
         </Switch>
       </Router>
     </ThemeProvider>
