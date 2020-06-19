@@ -37,10 +37,11 @@ const InputSearch = Styled.input`
   padding: 0 20px;
   outline: none;
   width: 300px;
+  background: white;
   color: #393F47;
   padding-left: 50px;
   font-size: 16px;
-  box-shadow: 0px 1px 5px #dfe1e5;
+  /* box-shadow: 0px 1px 5px #dfe1e5; */
   border-radius: 10px;
   border: 1px solid #EBEFF3;
   &::placeholder {
@@ -49,7 +50,7 @@ const InputSearch = Styled.input`
 `;
 const ButtonBox = Styled.div`
   display: flex;
-  max-width: 200px;
+  max-width: 240px;
   justify-content: space-around;
   margin-top: 10px;
 `;
@@ -61,7 +62,8 @@ const FilterBtn = Styled.button`
   cursor: pointer;
   height: 30px;
   padding: 0 10px;
-  background: ${(props) => (props.name === props.id && props ? '#e5ebf5' : 'white')};
+  background: ${(props) =>
+    props.name === props.id && props ? '#e5ebf5' : 'white'};
 `;
 InputSearch.displayName = 'input'; // show real display name for InputSearch, (need it for the jest test)
 FilterBtn.displayName = 'button'; // show real display name for FilterBtn, (need it for the jest test)
@@ -81,7 +83,8 @@ const OmniSearchComponent: React.SFC<OmniSearchComponentProps> = (props) => {
   const data: Array<IData> = [
     { id: '1', filter: 'Мои' },
     { id: '2', filter: 'Новые' },
-    { id: '3', filter: 'Всякие' }
+    { id: '3', filter: 'Всякие' },
+    { id: '4', filter: 'Все' }
   ];
   return (
     <>
@@ -89,6 +92,7 @@ const OmniSearchComponent: React.SFC<OmniSearchComponentProps> = (props) => {
         <img src={searchIcon} alt="search" />
         <InputSearch
           value={searchValue}
+          disabled
           onChange={(e) => setValue(e.target.value)}
           type="search"
           placeholder="Введите для поиска"

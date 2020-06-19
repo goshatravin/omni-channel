@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
-import { Wrapper, SectionTicket, SectionMessage, SectionInfo } from '../components/Grid';
+import { connect } from 'react-redux';
+import {
+  Wrapper,
+  SectionTicket,
+  SectionMessage,
+  SectionInfo
+} from '../components/Grid';
 import OmniTicketComponent from '../components/OmniTicketComponent';
 import OmniSearchComponent from '../components/OmniSearchComponent';
 import tickets from '../__test__/tickets.json';
 
 type OmniContainerProps = {};
-const OmniContainer: React.FC<OmniContainerProps> = () => {
+const OmniContainer: React.FC<OmniContainerProps> = (props) => {
+  console.log(props);
   const [searchValue, setSearchValue] = useState<string>('');
   const [currentBtn, setCurrentBtn] = useState<string>('');
   const [currentTicket, setCurrentTicket] = useState<string>('');
@@ -55,5 +62,7 @@ const OmniContainer: React.FC<OmniContainerProps> = () => {
     </Wrapper>
   );
 };
+const mapStateToProps = (state: any) => state;
 
-export default OmniContainer;
+const connectedOmniContainer = connect(mapStateToProps)(OmniContainer);
+export default connectedOmniContainer;
