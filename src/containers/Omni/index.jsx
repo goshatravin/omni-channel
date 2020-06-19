@@ -66,13 +66,13 @@ export const Dashboard = (props) => {
   // const hend = (e) => {
   //   console.log(e);
   // };
-  useEffect(() => {
-    const socket = io(ENDPOINT);
-    socket.emit('omnichannelConnect');
-    socket.on('omnichannelNotify', (data) => {
-      dispatch(ticketUpdate(data));
-    });
-  }, []);
+  // useEffect(() => {
+  //   const socket = io(ENDPOINT);
+  //   socket.emit('omnichannelConnect');
+  //   socket.on('omnichannelNotify', (data) => {
+  //     dispatch(ticketUpdate(data));
+  //   });
+  // }, []);
   useEffect(() => {
     // dispatch(getTicket('/ticket'));
     dispatch(getReference('/reference_book/channel_type'));

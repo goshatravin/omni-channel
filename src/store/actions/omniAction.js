@@ -48,14 +48,12 @@ const ticketInfoFailure = (error) => {
   };
 };
 const getTicket = (path, query, pageNumber) => async (dispatch) => {
-  console.log(path, query, pageNumber);
   dispatch(ticketRequest());
   return axios(`http://quasartest.accidentlaw.ru/api/v1/omnichannel/tickets`, {
     method: 'GET',
     params: { q: query, page: pageNumber },
   })
     .then((response) => {
-      console.log(response);
       const { data } = response;
       if (data.error) {
         throw data;
@@ -73,7 +71,6 @@ const getTicketInfo = (path) => async (dispatch) => {
     method: 'GET',
   })
     .then((response) => {
-      console.log(response);
       const { data } = response;
       if (data.error) {
         throw data;
