@@ -5,7 +5,7 @@ install:
 	npm install
 
 lint:
-	npx eslint .
+	npx eslint . --ext .tsx,.ts
 
 build:
 	npm build
