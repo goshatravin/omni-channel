@@ -1,32 +1,40 @@
----
 env:
   browser: true
   es6: true
+  node: true
   jest: true
-
 extends:
   - 'plugin:react/recommended'
   - airbnb
-  - prettier
-  - prettier/react
-
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
-
+parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaFeatures:
     jsx: true
   ecmaVersion: 2018
   sourceType: module
-
 plugins:
   - react
-  - prettier
-
+  - '@typescript-eslint'
 rules:
   {
-    no-console: 1,
-    react/jsx-filename-extension: [1, { 'extensions': ['.js', '.jsx'] }],
-    import/no-extraneous-dependencies: ['error', { 'devDependencies': true }],
+    'comma-dangle':
+      [
+        'error',
+        {
+          'arrays': 'never',
+          'objects': 'never',
+          'imports': 'never',
+          'exports': 'never',
+          'functions': 'never',
+        },
+      ],
+    'react/jsx-filename-extension': [0],
+    'import/extensions': 'off',
+    'import/no-unresolved': 'off',
+    'camelcase': 'off',
+    'react/prop-types': 0,
+    'object-curly-newline': 'off',
   }
