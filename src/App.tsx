@@ -1,5 +1,5 @@
 import * as React from 'react';
-import LoginContainer from '../src/containers/LoginContainer';
+// import LoginContainer from '../src/containers/LoginContainer';
 import OmniContainer from '../src/containers/OmniContainer';
 
 const App: React.FC = () => <OmniContainer />;

@@ -16,7 +16,7 @@ const LoginContainer: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     if (handleValidation()) {
-      console.log('To do action');
+      setError(false);
     } else {
       setError(true);
     }

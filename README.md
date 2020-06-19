@@ -4,6 +4,12 @@ This repository is created for educational purposes.
 
 ## Typescript application.
 
+# Omni-channel
+
+[![Omni](https://github.com/goshatravin/omni-channel/workflows/Omni/badge.svg)](https://github.com/goshatravin/omni-channel/actions)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8a7b1fdabb7ae473f719/maintainability)](https://codeclimate.com/github/goshatravin/omni-channel/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/8a7b1fdabb7ae473f719/test_coverage)](https://codeclimate.com/github/goshatravin/omni-channel/test_coverage)
+
 #### Available Scripts
 
 In the project directory, you can run:
@@ -33,6 +39,10 @@ Builds the app for production to the `build` folder.
 Launches the test runner in the interactive watch mode.
 
 #### Version history
+
+##### 0.2.0
+
+Compleate 2 pages Login and Omni
 
 ##### 0.1.0
 
