@@ -40,7 +40,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{secrets.dfbf37cc59b8a692d801b7b3ea1b7ed24854cf636d105d07f0978885fdba7c10}}
         with:
-          coverageCommand: make lint
+          coverageCommand: make test
       - name: Check linter
         # Run Linter
         run: |
