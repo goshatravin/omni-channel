@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 const Box = styled.div`
   background: lightgray;
   height: 90vh;
-  width: 200px;
+  width: 400px;
   border-radius: 5px;
   opacity: 0.5;
   margin: 10px;

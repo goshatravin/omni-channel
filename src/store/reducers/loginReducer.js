@@ -10,10 +10,7 @@ const initialState = {
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGIN_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-      };
+      return { ...state, isLoading: true };
     case actionTypes.LOGIN_SUCCESS:
       return {
         ...state,
@@ -21,7 +18,7 @@ const loginReducer = (state = initialState, action) => {
         loggedIn: true,
         data: action.payload.data,
       };
-    case actionTypes.LOGOUT_FAILURE:
+    case actionTypes.LOGIN_FAILURE:
       return {
         ...state,
         isLoading: false,
@@ -36,15 +33,16 @@ const loginReducer = (state = initialState, action) => {
       };
     case actionTypes.SESSION_SUCCESS:
       return {
+        ...state,
         loggedIn: true,
         isLoading: false,
-        data: action.payload,
+        data: action.payload.data,
       };
     case actionTypes.SESSION_FAILURE:
       return {
         loggedIn: false,
         isLoading: false,
-        error: action.payload,
+        error: action.payload.error,
         data: null,
       };
     case actionTypes.ERROR_INPUT:
@@ -52,7 +50,9 @@ const loginReducer = (state = initialState, action) => {
         ...state,
         error: {
           error: true,
+          status: '69',
           text: 'Поля логин и пароль должны быть не пустыми',
+          value: null,
         },
       };
     default:

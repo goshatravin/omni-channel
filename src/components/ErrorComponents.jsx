@@ -15,11 +15,11 @@ const PText = styled.p`
 `;
 
 const errorComponent = (props) => {
-  const { value, submitted } = props;
-  if (submitted && value) {
+  const { error, submitted } = props;
+  if (submitted && error) {
     return (
       <EmptyFiled>
-        <PText>{value.text}</PText>
+        <PText>{error.text || (error.stack && 'Network Error')}</PText>
       </EmptyFiled>
     );
   }
@@ -28,7 +28,7 @@ const errorComponent = (props) => {
 
 errorComponent.defaultProps = {
   submitted: false,
-  value: {
+  error: {
     error: false,
   },
 };

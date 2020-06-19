@@ -6,18 +6,27 @@ const Div = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  height: 100vh;
+  flex-direction: ${(props) => {
+    return props.direction;
+  }};
+  height: calc(var(--vh, 1vh) * 100);
   background: ${(props) => props.theme.colors.primary};
 `;
 
 const Flexbox = (props) => {
-  const { className, children } = props;
+  const { className, children, direction } = props;
 
-  return <Div className={className}>{children}</Div>;
+  return (
+    // <Wrapper>
+    <Div className={className} direction={direction}>
+      {children}
+    </Div>
+    // </Wrapper>
+  );
 };
 
 Flexbox.propTypes = {
+  direction: PropTypes.string.isRequired,
   className: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),

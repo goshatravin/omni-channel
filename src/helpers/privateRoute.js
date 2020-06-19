@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import sessionAction from '../store/actions/sessionAction';
+import { sessionAuth } from '../store/actions/sessionAction';
 import Loading from './Loading';
 
 // const Loading = () => {
@@ -15,10 +15,10 @@ function PrivateRoute({ children, ...rest }) {
   useEffect(() => {
     if (!loggedIn) {
       setSpinner(true);
-      dispatch(sessionAction(path));
+      dispatch(sessionAuth(path));
       setTimeout(() => {
         setSpinner(false);
-      }, 3000);
+      }, 1000);
     }
   }, []);
   if (loggedIn && !spinner) {
