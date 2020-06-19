@@ -8,7 +8,6 @@ on:
 
 jobs:
   build-lint-install:
-
     # The type of machine to run the job on
     runs-on: ubuntu-latest
 
@@ -18,8 +17,8 @@ jobs:
         node-version: [13.x]
 
     steps:
-        # Check-out repository under GitHub workspace
-        # https://github.com/actions/checkout
+      # Check-out repository under GitHub workspace
+      # https://github.com/actions/checkout
       - uses: actions/checkout@v2
         # Step's name
       - name: Use Node.js ${{ matrix.node-version }}
@@ -36,13 +35,12 @@ jobs:
         # Add environment variables
         env:
           CI: true
-      - name: Test & publish code coverage
-          uses: paambaati/codeclimate-action@v2.6.0
-          env:
-            CC_TEST_REPORTER_ID: ${{secrets.dfbf37cc59b8a692d801b7b3ea1b7ed24854cf636d105d07f0978885fdba7c10}}
-          with:
-            coverageCommand: make lint
-
+      - name: Code Climate Coverage Action
+        uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.dfbf37cc59b8a692d801b7b3ea1b7ed24854cf636d105d07f0978885fdba7c10}}
+        with:
+          coverageCommand: make test
       - name: Check linter
         # Run Linter
         run: |
